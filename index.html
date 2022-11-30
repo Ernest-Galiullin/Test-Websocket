@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Test Websocket</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Test Websocket</h1>
+
+      <button id="subscribe" class="subscribe">Subscribe</button>
+      <button id="unsubscribe" class="unsubscribe">Unsubscribe</button>
+      <button id="send" class="send">Send</button>
+    </div>
+    <script>
+      const SOCKET_URL = 'ws://localhost:3000/cable'
+      const socket = new WebSocket(SOCKET_URL)
+
+      socket.onopen = () => {
+        console.log('Connected')
+      }
+      socket.onmessage = event => {
+        console.log('Message:', event)
+      }
+      socket.onclose = () => {
+        console.log('Disconnected')
+      }
+      socket.onerror = error => {
+        console.log('Error', error)
+      }
+
+      const unsubscribeButton = document.getElementById('unsubscribe')
+      const subscribeButton = document.getElementById('subscribe')
+      const send = document.getElementById('send')
+
+      subscribeButton.addEventListener('click', () => {
+        socket.send(
+          JSON.stringify({
+            command: 'subscribe',
+            identifier: '{"channel":"SheetsChannel", "sheet_id":"9"}'
+          })
+        )
+      })
+      unsubscribeButton.addEventListener('click', () => {
+        socket.send(
+          JSON.stringify({
+            command: 'unsubscribe',
+            identifier: '{"channel":"SheetsChannel", "sheet_id":"9"}'
+          })
+        )
+      })
+
+      send.addEventListener('click', () => {
+        socket.send(
+          JSON.stringify({
+            value: 'some string',
+            id: 'some id'
+          })
+        )
+      })
+    </script>
+  </body>
+</html>

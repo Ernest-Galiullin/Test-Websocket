@@ -1,0 +1,26 @@
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.subscribe,
+.unsubscribe,
+.send {
+  padding: 20px;
+  font-size: 24px;
+  cursor: pointer;
+}
+.subscribe:active,
+.unsubscribe:active {
+  opacity: 0.5;
+}
+.subscribe {
+  background-color: green;
+}
+.unsubscribe {
+  background-color: red;
+}
+.send {
+  background-color: yellow;
+}
